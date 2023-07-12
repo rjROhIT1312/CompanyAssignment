@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container bg-light shadow p-4 mt-5 mx-auto sign-up-form" style="width: 23.125rem; border: 2px solid black; border-radius: 0.313rem;">
+        <form onSubmit="return validateForm(event)">
+            <h2 class="mb-4 text-center">Registration Form</h2>
+            <hr>
+
+            <div class="form-group">
+                <label for="employeeId">Employee ID</label>
+                <input type="text" class="form-control" id="employeeId" placeholder="Employee ID" name="employeeId" />
+            </div>
+
+            <div class="form-group">
+                <label for="employeeName">Employee Name</label>
+                <input type="text" class="form-control" id="employeeName" placeholder="Employee Name" name="employeeName"   />
+            </div>
+
+            <div class="form-group">
+                <label for="dateOfBirth">Date of Birth</label>
+                <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth"   />
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <input type="text" class="form-control" id="gender" placeholder="Gender" name="gender"   />
+            </div>
+
+            <div class="form-group">
+                <label for="mobileNo">Mobile No.</label>
+                <input type="text" class="form-control" id="mobileNo" placeholder="Mobile No." name="mobileNo"   />
+            </div>
+
+            <div class="form-group">
+                <label for="department">Department</label>
+                <select class="form-control" id="department" name="department"  >
+                    <option value="">Select Department</option>
+                    <option value="HR">HR</option>
+                    <option value="IT">IT</option>
+                    <option value="Management">Management</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block mt-3">Save</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm(event) {
+            event.preventDefault(); 
+
+            
+             let employeeId = document.getElementById("employeeId").value;
+             let employeeName = document.getElementById("employeeName").value;
+             let dateOfBirth = document.getElementById("dateOfBirth").value;
+             let gender = document.getElementById("gender").value;
+             let mobileNo = document.getElementById("mobileNo").value;
+             let department = document.getElementById("department").value;
+
+             let formattedDateOfBirth = new Date(dateOfBirth).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
+            }).replace(/\//g, "-");
+
+             let formattedMobileNo = mobileNo.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+
+            if (employeeId === "" || employeeName === "" || dateOfBirth === "" || gender === "" || mobileNo === "" || department === "") {
+                alert("Please fill all details.");
+                return false; 
+            }
+
+             let formData = {
+                employeeId: employeeId,
+                employeeName: employeeName,
+                dateOfBirth: formattedDateOfBirth,
+                gender: gender,
+                mobileNo: formattedMobileNo,
+                department: department
+            };
+
+             let storedData = JSON.parse(localStorage.getItem("formData")) || [];
+            storedData.push(formData);
+            localStorage.setItem("formData", JSON.stringify(storedData));
+
+            window.location.href = "/table.html";
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
+
